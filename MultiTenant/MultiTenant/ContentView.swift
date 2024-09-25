@@ -9,13 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var networkMonitor: NetworkMonitor
     
     var body: some View {
         Group {
-            if viewModel.userSession == nil {
-                LoginView()
+            if !networkMonitor.isConnected {
+                OfflineView()
             } else {
-                ProfileView()
+                if viewModel.userSession == nil {
+                    LoginView()
+                } else {
+                    DashboardView()
+                }
             }
         }
     }

@@ -16,6 +16,9 @@ struct MTTextField: View {
     var textContentType: UITextContentType?
     var textInputAutoCapital: TextInputAutocapitalization?
     var isSecureField: Bool? = false
+    var submitLabel: SubmitLabel?
+    var allowedMaxLength: Int? = 0 // if allowedMaxLength = 0; then no text limit; otherwise text is limited to allowedMaxLength
+    
     @Binding var text: String
     
     var body: some View {
@@ -31,6 +34,16 @@ struct MTTextField: View {
                         .disableAutocorrection(true)
                         .textInputAutocapitalization(textInputAutoCapital != nil ? textInputAutoCapital : .never)
                         .autocorrectionDisabled()
+                        .submitLabel(submitLabel ?? .done)
+                        .onChange(of: text) { newValue in
+                            if let maxLength = allowedMaxLength, maxLength > 0 {
+                                if newValue.count > maxLength {
+                                    text = String(newValue.prefix(maxLength))
+                                }
+                            } else {
+                                text = setTextCase(text: text)
+                            }
+                        }
                 } else {
                     TextField(placeholderText, text: $text)
                         .padding()
@@ -41,8 +54,15 @@ struct MTTextField: View {
                         .disableAutocorrection(true)
                         .textInputAutocapitalization(textInputAutoCapital != nil ? textInputAutoCapital : .never)
                         .autocorrectionDisabled()
+                        .submitLabel(submitLabel ?? .done)
                         .onChange(of: text) { newValue in
-                            text = setTextCase(text: text)
+                            if let maxLength = allowedMaxLength, maxLength > 0 {
+                                if newValue.count > maxLength {
+                                    text = String(newValue.prefix(maxLength))
+                                }
+                            } else {
+                                text = setTextCase(text: text)
+                            }
                         }
                 }
             }

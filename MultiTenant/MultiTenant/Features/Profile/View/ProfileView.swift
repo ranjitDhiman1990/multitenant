@@ -15,6 +15,7 @@ struct ProfileView: View {
     @State private var createdOn = "May 7th 2024"
     @State private var role = "SUPER_ADMIN"
     @State private var tenantName = "TATA CORP"
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         VStack {
@@ -22,6 +23,7 @@ struct ProfileView: View {
             HStack {
                 Button(action: {
                     // Action to go back
+                    viewModel.logout()
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.black)

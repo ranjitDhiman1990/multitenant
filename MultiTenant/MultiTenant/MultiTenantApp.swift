@@ -12,6 +12,8 @@ import Firebase
 struct MultiTenantApp: App {
     
     @StateObject var viewModel = AuthViewModel()
+    @StateObject var networkMonitor = NetworkMonitor()
+    
     init() {
         FirebaseApp.configure()
     }
@@ -22,6 +24,7 @@ struct MultiTenantApp: App {
                 ContentView()
             }
             .environmentObject(viewModel)
+            .environmentObject(networkMonitor)
         }
     }
 }

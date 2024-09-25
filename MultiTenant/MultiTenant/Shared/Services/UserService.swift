@@ -19,7 +19,7 @@ struct UserService {
                 do {
                     user = try snapshot.data(as: User.self)
                 } catch {
-                    print ("Error fetchUser: \(error)")
+                    debugPrint("Error fetchUser: \(error)")
                     return
                 }
                 
