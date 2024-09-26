@@ -14,7 +14,7 @@ struct ImageUploader {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let filename = NSUUID().uuidString
-        let ref = Storage.storage().reference(withPath: "/profile_image/\(filename)")
+        let ref = Storage.storage().reference(withPath: "/profile_images/\(filename)")
         
         ref.putData(imageData, metadata: nil) { _, error in
             if let error = error {
@@ -33,7 +33,7 @@ struct ImageUploader {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let filename = NSUUID().uuidString
-        let ref = Storage.storage().reference(withPath: "/gallery_images/\(filename)")
+        let ref = Storage.storage().reference(withPath: "/gallery/\(filename)")
         
         ref.putData(imageData, metadata: nil) { _, error in
             if let error = error {

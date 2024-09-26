@@ -89,7 +89,8 @@ struct SignUpView: View {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
                         }
                     }
-                }.padding(.horizontal, 20)
+                }
+                .padding(.horizontal, 20)
                 
                 
                 // Toggle for terms and privacy policy agreement
@@ -121,9 +122,10 @@ struct SignUpView: View {
                     // Handle sign-up action
                     formValidator.validateForm()
                     if formValidator.isFormValid {
-                        viewModel.register(withEmail: formValidator.email,
+                        viewModel.register(withEmail: formValidator.email, mobile: formValidator.mobileNumber,
                                            password: formValidator.password,
-                                           fullname: "\(formValidator.firstName) \(formValidator.lastName)",
+                                           firstName: formValidator.firstName,
+                                           lastName: formValidator.lastName,
                                            username: formValidator.firstName)
                     }
                 }) {

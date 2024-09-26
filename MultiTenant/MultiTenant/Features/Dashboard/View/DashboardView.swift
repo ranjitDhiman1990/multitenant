@@ -24,12 +24,7 @@ struct DashboardView: View {
                     
                     // Profile Image with Navigation Link
                     NavigationLink(destination: ProfileView()) {
-                        Image(systemName: "person.crop.circle") // Replace with actual image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                        ImageViewer(height: 40, width: 40, imageUrl: viewModel.currentUser?.profileImageUrl ?? "")
                     }
                 }
                 .padding(.horizontal) // Padding for left and right

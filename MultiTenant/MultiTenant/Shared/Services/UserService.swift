@@ -9,20 +9,15 @@ import FirebaseFirestore
 
 struct UserService {
     
-    func fetchUser(withUid uid: String, completion: @escaping(User) -> Void) {
+    func fetchUser(withUid uid: String, completion: @escaping(User?) -> Void) {
         Firestore.firestore().collection("users")
             .document(uid)
             .getDocument { snapshot, _ in
                 guard let snapshot = snapshot else { return }
-                var user: User
-                
-                do {
-                    user = try snapshot.data(as: User.self)
-                } catch {
-                    debugPrint("Error fetchUser: \(error)")
-                    return
+                var user: User?
+                if let dataDict = snapshot.data() {
+                    user =  User.fromDictionary(dataDict)
                 }
-                
                 completion(user)
             }
     }
@@ -31,8 +26,9 @@ struct UserService {
         Firestore.firestore().collection("users")
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
-                let users = documents.compactMap({ try? $0.data(as: User.self)})
-                
+                let users = documents.compactMap { snapshot in
+                    return User.fromDictionary(snapshot.data())
+                }
                 completion(users)
             }
     }

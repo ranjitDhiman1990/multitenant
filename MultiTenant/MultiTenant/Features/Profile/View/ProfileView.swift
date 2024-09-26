@@ -9,14 +9,9 @@ import SwiftUI
 
 struct ProfileView: View {
     // Sample data for display
-    @State private var name = "Firstname Lastname"
-    @State private var phoneNumber = "1 (212) 222-2222"
-    @State private var accountNumber = "0018 1994 1293 1841"
-    @State private var createdOn = "May 7th 2024"
-    @State private var role = "SUPER_ADMIN"
-    @State private var tenantName = "TATA CORP"
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var presentationMode
+    @State private var showAlert = false
     
     var body: some View {
         VStack {
@@ -33,45 +28,63 @@ struct ProfileView: View {
                     .font(.title)
                     .fontWeight(.medium)
                 Spacer()
+                Button(action: {
+                    showAlert = true
+                }) {
+                    HStack {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .foregroundColor(.black)
+                    }
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Logout"),
+                        message: Text("Do you want to logout?"),
+                        primaryButton: .default(Text("Yes")) {
+                            viewModel.logout()
+                        },
+                        secondaryButton: .cancel(Text("No")) {}
+                    )
+                }
             }
             .padding(.horizontal) // Padding for left and right
             .padding(.top, 10) // Top padding to push away from the notch
             .padding(.bottom, 10) // Minimal padding for bottom
             .background(Color(UIColor.systemGray6))
             
-            Spacer(minLength: 20)
-            
             // Profile Image
             VStack(spacing: 10) {
-                Image(systemName: "person.crop.circle")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
+                ImageViewer(height: 100, width: 100, imageUrl: viewModel.currentUser?.profileImageUrl ?? "")
                 
                 // Name and Phone Number
-                Text(name)
+                Text("\(viewModel.currentUser?.firstName ?? "") \(viewModel.currentUser?.lastName ?? "")")
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text(phoneNumber)
+                Text(viewModel.currentUser?.mobileNumber ?? "")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
                 // Edit Profile Button
-                Button(action: {
-                    // Edit profile action
-                }) {
+                NavigationLink {
+                    EditProfileView()
+                        .navigationBarHidden(true)
+                } label: {
                     HStack {
-                        Image(systemName: "pencil")
-                        Text("Edit Profile")
+                        HStack {
+                            Image(systemName: "pencil")
+                            Text("Edit Profile")
+                        }
+                        .frame(width: 150, height: 40)
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
-                    .frame(width: 150, height: 40)
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .padding(.top, 5)
                 }
-                .padding(.top, 5)
+                
             }
+            .padding(.top, 30)
             
             // Overview Section
             VStack(alignment: .leading, spacing: 15) {
@@ -82,10 +95,10 @@ struct ProfileView: View {
                 
                 // Information List
                 Group {
-                    ProfileRowView(label: "Account", value: accountNumber)
-                    ProfileRowView(label: "Created On", value: createdOn)
-                    ProfileRowView(label: "Role", value: role)
-                    ProfileRowView(label: "Tenant Name", value: tenantName)
+                    ProfileRowView(label: "Account", value: viewModel.currentUser?.email ?? "")
+                    ProfileRowView(label: "Created On", value: viewModel.currentUser?.createdOn?.toString(format: "MMM dd, yyyy") ?? "")
+                    ProfileRowView(label: "Role", value: viewModel.currentUser?.role ?? "Not Assigned")
+                    ProfileRowView(label: "Tenant Name", value: viewModel.currentUserTenant?.name ?? "Not Assigned")
                 }
                 .padding(.horizontal, 20)
             }
@@ -93,9 +106,11 @@ struct ProfileView: View {
             
             // Delete Account Section
             VStack {
-                Button(action: {
+                NavigationLink {
                     // Delete account action
-                }) {
+                    DeleteAccountView()
+                        .navigationBarHidden(true)
+                } label: {
                     HStack {
                         Text("Delete Account")
                         Spacer()
@@ -108,7 +123,6 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal, 20)
             }
-            
             Spacer()
         }
         .navigationBarHidden(true)
