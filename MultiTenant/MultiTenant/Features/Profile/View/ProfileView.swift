@@ -16,25 +16,28 @@ struct ProfileView: View {
     @State private var role = "SUPER_ADMIN"
     @State private var tenantName = "TATA CORP"
     @EnvironmentObject var viewModel: AuthViewModel
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack {
             // Navigation Bar
             HStack {
                 Button(action: {
-                    // Action to go back
-                    viewModel.logout()
+                    presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.black)
                 }
                 Spacer()
                 Text("Profile")
-                    .font(.headline)
-                    .foregroundColor(.black)
+                    .font(.title)
+                    .fontWeight(.medium)
                 Spacer()
             }
-            .padding()
+            .padding(.horizontal) // Padding for left and right
+            .padding(.top, 10) // Top padding to push away from the notch
+            .padding(.bottom, 10) // Minimal padding for bottom
+            .background(Color(UIColor.systemGray6))
             
             Spacer(minLength: 20)
             

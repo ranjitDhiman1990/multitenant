@@ -48,10 +48,10 @@ struct MenuFAB: View {
                                 isExpanded.toggle() // Toggle menu expansion
                             }
                         }) {
-                            mainFABView(icon: "doc.fill")
+                            mainFABView(icon: "plus")
                         }
                         // Rotate the main FAB by 180 degrees when expanded
-                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .rotationEffect(.degrees(isExpanded ? -45 : 0))
                         .animation(.easeInOut, value: isExpanded)
                     }
                     .padding(.trailing, 20)
