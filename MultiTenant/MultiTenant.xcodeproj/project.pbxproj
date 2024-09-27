@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E075D1A2CA661DE005D30F5 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E075D192CA661DE005D30F5 /* GalleryView.swift */; };
 		1E1DA7672CA3A260009184B5 /* MultiTenantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7662CA3A260009184B5 /* MultiTenantApp.swift */; };
 		1E1DA7692CA3A260009184B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7682CA3A260009184B5 /* ContentView.swift */; };
 		1E1DA76B2CA3A262009184B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1DA76A2CA3A262009184B5 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E075D192CA661DE005D30F5 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		1E1DA7632CA3A260009184B5 /* MultiTenant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiTenant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1DA7662CA3A260009184B5 /* MultiTenantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTenantApp.swift; sourceTree = "<group>"; };
 		1E1DA7682CA3A260009184B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		1E1DA7832CA3A350009184B5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1E075D192CA661DE005D30F5 /* GalleryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				1E5792602CA5DA9E00BBB47E /* TenantService.swift in Sources */,
 				1E5792622CA5DAAD00BBB47E /* ImageGalleryService.swift in Sources */,
 				1EEA74562CA3AD8E00E4414D /* User.swift in Sources */,
+				1E075D1A2CA661DE005D30F5 /* GalleryView.swift in Sources */,
 				1ED82FA92CA470A500C628AC /* SignupViewFormValidator.swift in Sources */,
 				1E57926D2CA60A8A00BBB47E /* Date+Extensions.swift in Sources */,
 				1EEA74582CA3AEAD00E4414D /* ImageUploader.swift in Sources */,

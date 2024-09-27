@@ -34,12 +34,16 @@ struct MenuFAB: View {
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             
-                            Button(action: {
-                                print("Option 3 tapped")
-                            }) {
+                            NavigationLink(destination: GalleryView().navigationBarHidden(true)) {
                                 menuOptionView(icon: "camera.fill")
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
+//                            Button(action: {
+//                                print("Option 3 tapped")
+//                            }) {
+//                                menuOptionView(icon: "camera.fill")
+//                            }
+//                            .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                         
                         // Main FAB Button
