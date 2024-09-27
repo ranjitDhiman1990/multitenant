@@ -20,16 +20,12 @@ struct MenuFAB: View {
                     VStack {
                         // Additional Options - Visible when FAB is expanded
                         if isExpanded {
-                            Button(action: {
-                                print("Option 1 tapped")
-                            }) {
+                            NavigationLink(destination: GalleryView().navigationBarHidden(true)) {
                                 menuOptionView(icon: "tray.fill")
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             
-                            Button(action: {
-                                print("Option 2 tapped")
-                            }) {
+                            NavigationLink(destination: GalleryView().navigationBarHidden(true)) {
                                 menuOptionView(icon: "exclamationmark.triangle.fill")
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -38,12 +34,6 @@ struct MenuFAB: View {
                                 menuOptionView(icon: "camera.fill")
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
-//                            Button(action: {
-//                                print("Option 3 tapped")
-//                            }) {
-//                                menuOptionView(icon: "camera.fill")
-//                            }
-//                            .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                         
                         // Main FAB Button
@@ -54,7 +44,7 @@ struct MenuFAB: View {
                         }) {
                             mainFABView(icon: "plus")
                         }
-                        // Rotate the main FAB by 180 degrees when expanded
+                        // Rotate the main FAB by -45 degrees when expanded
                         .rotationEffect(.degrees(isExpanded ? -45 : 0))
                         .animation(.easeInOut, value: isExpanded)
                     }

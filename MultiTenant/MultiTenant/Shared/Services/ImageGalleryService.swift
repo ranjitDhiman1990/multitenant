@@ -8,11 +8,13 @@
 import FirebaseFirestore
 
 struct ImageGalleryService {
-    func fetchTenants(completion: @escaping([GalleryImage]) -> Void) {
+    func fetchImages(completion: @escaping([GalleryImage]) -> Void) {
         Firestore.firestore().collection("images")
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
-                let images = documents.compactMap({ try? $0.data(as: GalleryImage.self)})
+                let images = documents.compactMap { snapshot in
+                    return GalleryImage.fromDictionary(snapshot.data())
+                }
                 completion(images)
             }
     }

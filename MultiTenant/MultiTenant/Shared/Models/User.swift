@@ -22,29 +22,29 @@ struct User: Codable {
     let updatedOn: Date?
     
     // Factory method to decode User from JSON Data
-        static func fromJson(_ jsonData: Data) -> User? {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601 // Assuming ISO8601 date format
-            
-            do {
-                let user = try decoder.decode(User.self, from: jsonData)
-                return user
-            } catch {
-                print("Error decoding User: \(error)")
-                return nil
-            }
+    static func fromJson(_ jsonData: Data) -> User? {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601 // Assuming ISO8601 date format
+        
+        do {
+            let user = try decoder.decode(User.self, from: jsonData)
+            return user
+        } catch {
+            print("Error decoding User: \(error)")
+            return nil
         }
+    }
     
     // Factory method to decode User from Dictionary
-        static func fromDictionary(_ dictionary: [String: Any]) -> User? {
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
-                return fromJson(jsonData) // Use the same JSON decoding logic
-            } catch {
-                print("Error serializing dictionary to JSON: \(error)")
-                return nil
-            }
+    static func fromDictionary(_ dictionary: [String: Any]) -> User? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+            return fromJson(jsonData) // Use the same JSON decoding logic
+        } catch {
+            print("Error serializing dictionary to JSON: \(error)")
+            return nil
         }
+    }
     
     // Method to convert User to JSON
     func toJson() -> [String: Any]? {

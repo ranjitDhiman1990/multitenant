@@ -7,132 +7,176 @@
 
 import SwiftUI
 
-// Model to represent each gallery item (image and date information)
-struct GalleryItem: Identifiable {
-    let id = UUID()
-    let imageName: String
-    let dateAgo: String
-    let exactDate: String
-}
-
-// Sample Data
-let sampleGalleryItems: [GalleryItem] = [
-    GalleryItem(imageName: "baby1", dateAgo: "21 Days Ago", exactDate: "April 12th"),
-    GalleryItem(imageName: "baby2", dateAgo: "22 Days Ago", exactDate: "April 11th"),
-    GalleryItem(imageName: "baby3", dateAgo: "23 Days Ago", exactDate: "April 10th"),
-    GalleryItem(imageName: "baby4", dateAgo: "24 Days Ago", exactDate: "April 9th")
-]
-
 // Main Gallery View
 struct GalleryView: View {
-    @Namespace private var animationNamespace // Namespace for matchedGeometryEffect
-    @State private var selectedImage: String? // The selected image for the previewer
-    @State private var isShowingPreview = false // Controls showing the preview
+    @Namespace private var animationNamespace
+    @State private var selectedImage: String? = nil
+    @State private var scale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var tapLocation: CGPoint = .zero
     @Environment(\.presentationMode) var presentationMode
+    
+    @StateObject var viewModel = GalleryViewModel()
     
     var body: some View {
         NavigationView {
             VStack {
-                // Navigation Bar
-                HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
+                if selectedImage == nil {
+                    // Navigation Bar
+                    HStack {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.black)
+                        }
+                        Spacer()
+                        Text("Gallery View")
+                            .font(.title)
+                            .fontWeight(.medium)
+                        Spacer()
                     }
-                    Spacer()
-                    Text("Gallery View")
-                        .font(.title)
-                        .fontWeight(.medium)
-                    Spacer()
+                    .padding(.horizontal) // Padding for left and right
+                    .padding(.top, 10) // Top padding to push away from the notch
+                    .padding(.bottom, 10) // Minimal padding for bottom
+                    .background(Color(UIColor.systemGray6))
                 }
-                .padding(.horizontal) // Padding for left and right
-                .padding(.top, 10) // Top padding to push away from the notch
-                .padding(.bottom, 10) // Minimal padding for bottom
-                .background(Color(UIColor.systemGray6))
+                
                 
                 // Gallery Content
-                ScrollView {
-                    ForEach(sampleGalleryItems) { item in
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(item.dateAgo)
-                                    .font(.headline)
-                                Spacer()
-                                Text(item.exactDate)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                            .padding(.horizontal)
-                            
-                            // Image grid/list
-                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                                ForEach(0..<4) { index in
-
-                                    NavigationLink(destination: DetailView(imageName: item.imageName, animationNamespace: animationNamespace).navigationBarHidden(true)) {
-                                        Image(item.imageName)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 150, height: 150)
+                if viewModel.galleryImages.count > 0 {
+                    ScrollView {
+                        
+                        let dictionarySorted = viewModel.galleryImages.sorted(by: { $0.key < $1.key })
+                        
+                        ForEach(dictionarySorted, id: \.key) { (key, values) in
+                            let firstValue = values.first
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(key)
+                                        .font(.headline)
+                                    Spacer()
+                                    Text(firstValue?.createdOn?.toString(format: "MMM dd, yyyy") ?? "")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(.horizontal)
+                                
+                                // Image grid/list
+                                LazyVGrid(columns: [GridItem(.flexible(minimum: 100, maximum: 200)), GridItem(.flexible(minimum: 100, maximum: 200))], spacing: 12) {
+                                    ForEach(values) { item in
+                                        ImageViewer(height: (UIScreen.main.bounds.width - 40) / 2, width: (UIScreen.main.bounds.width - 48) / 2, imageUrl: item.imageUrl ?? "", isCircular: false)
                                             .cornerRadius(10)
                                             .clipped()
-                                            .matchedGeometryEffect(id: item.imageName, in: animationNamespace)
+                                            .matchedGeometryEffect(id: item.id, in: animationNamespace)
+                                            .onTapGesture {
+                                                withAnimation(.spring()) {
+                                                    selectedImage = item.imageUrl
+                                                }
+                                            }
+                                        
+                                    }
+                                }
+                                .padding(.leading, 16)
+                                .padding(.trailing, 16)
+                                
+                                
+                            }
+                            .padding(.bottom, 20)
+                        }
+                    }
+                    .overlay(
+                        Group {
+                            // Full screen view for selected image
+                            if let image = self.selectedImage {
+                                FullScreenImageView(imageName: image, animationNamespace: animationNamespace, scale: $scale, offset: $offset, tapLocation: tapLocation) {
+                                    withAnimation(.spring()) {
+                                        // Reset on dismiss
+                                        self.selectedImage = nil
+                                        self.tapLocation = .zero
                                     }
                                 }
                             }
-                            .padding(.horizontal)
                         }
-                        .padding(.bottom, 20)
-                    }
+                    )
+                    
+                } else {
+                    Spacer()
                 }
             }
             .navigationBarHidden(true)
         }
+        .showHideLoadingOverlay(isLoading: viewModel.isShowLoading)
     }
 }
 
 
-struct DetailView: View {
-    @Environment(\.presentationMode) var presentationMode
-    var imageName: String
-    var animationNamespace: Namespace.ID
-    @State private var isZoomed = false
+struct FullScreenImageView: View {
+    let imageName: String
+    let animationNamespace: Namespace.ID
+    @Binding var scale: CGFloat
+    @Binding var offset: CGSize
+    let tapLocation: CGPoint
+    var dismissAction: () -> Void
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Color.black
-                .ignoresSafeArea()
+        ZStack {
+            Color.black.ignoresSafeArea()
             
-            // Full-Screen Image with Hero Animation
-            GeometryReader { geometry in
-                Image(imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .matchedGeometryEffect(id: imageName, in: animationNamespace)
-                    .onTapGesture {
-                        // Tap to dismiss
-                        withAnimation(.easeInOut) {
-                            isZoomed.toggle() // Full-screen mode
+            ImageViewer(height: UIScreen.main.bounds.width, width: UIScreen.main.bounds.width, imageUrl: imageName, isCircular: false)
+                .scaledToFit()
+                .matchedGeometryEffect(id: imageName, in: animationNamespace)
+                .scaleEffect(scale)
+                .offset(x: offset.width, y: offset.height)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            // Update offset while dragging
+                            offset = CGSize(width: value.translation.width, height: value.translation.height)
                         }
-                    }
-            }
-            .transition(.scale) // Full-screen transition effect
-            
-            // Close Button
-            Button(action: {
-                withAnimation(.spring()) {
-                    isZoomed = false
-                    presentationMode.wrappedValue.dismiss()
+                        .onEnded { value in
+                            // Dismiss if dragged down significantly
+                            if offset.height > 100 {
+                                dismissAction() // Dismiss the view
+                                offset = .zero
+                                scale = 1
+                            } else {
+                                // Reset position if not dismissed
+                                withAnimation(.spring()) {
+                                    offset = .zero
+                                    scale = 1
+                                }
+                            }
+                        }
+                )
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            // Update scale with pinch gesture
+                            scale = max(1.0, value) // Prevent shrinking below original size
+                        }
+                        .onEnded { value in
+                            // Optionally, reset scale on end
+                            withAnimation { 
+                                offset = .zero
+                                scale = 1.0
+                            }
+                        }
+                )
+                .onTapGesture {
+                    dismissAction() // Dismiss on tap
+                    offset = .zero
+                    scale = 1
                 }
-            }) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
-                    .padding()
-            }
         }
-        .navigationBarHidden(true) // Hide navigation bar for full-screen view
+        .transition(.move(edge: .bottom))
+        .onAppear {
+            // Calculate the initial offset for zoom
+            let screenSize = UIScreen.main.bounds.size
+            let xOffset = (tapLocation.x - (screenSize.width / 2)) * (1 - 1/scale)
+            let yOffset = (tapLocation.y - (screenSize.height / 2)) * (1 - 1/scale)
+            
+            offset = CGSize(width: xOffset, height: yOffset)
+        }
     }
 }

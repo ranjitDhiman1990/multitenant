@@ -13,28 +13,67 @@ struct ImageViewer: View {
     let height: CGFloat
     let width: CGFloat
     let imageUrl: String
+    var isCircular: Bool = true
     
     var body: some View {
-        KFImage(URL(string: imageUrl))
-            .resizable()
-            .serialize(as: .PNG)
-            .onSuccess { result in
-                print("Image loaded from cache: \(result.cacheType)")
-            }
-            .onFailure { error in
-                print("Error: \(error)")
-            }
-            .placeholder({
-                Image(systemName: "person.circle.fill") // Placeholder image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: width, height: height)
-                    .foregroundColor(.gray)
-            })
-            .scaledToFill()
-            .frame(width: width, height: height)
-            .clipShape(Circle())
-            .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+        if isCircular {
+            KFImage(URL(string: imageUrl))
+                .resizable()
+                .serialize(as: .PNG)
+                .onSuccess { result in
+                    print("Image loaded from cache: \(result.cacheType)")
+                }
+                .onFailure { error in
+                    print("Error: \(error)")
+                }
+                .placeholder({
+                    Image(systemName: "person.circle.fill") // Placeholder image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: width, height: height)
+                        .foregroundColor(.gray)
+                })
+                .scaledToFill()
+                .frame(width: width, height: height)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.gray, lineWidth: 0.1))
+                .onAppear {
+                    debugPrint("onAppear: called \(imageUrl)")
+                }
+                .onDisappear {
+                    debugPrint("onDisappear: called \(imageUrl)")
+                    KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
+                }
+        } else {
+            KFImage(URL(string: imageUrl))
+                .resizable()
+                .serialize(as: .PNG)
+                .onSuccess { result in
+                    print("Image loaded from cache: \(result.cacheType)")
+                }
+                .onFailure { error in
+                    print("Error: \(error)")
+                }
+                .placeholder({
+                    Image(systemName: "person.circle.fill") // Placeholder image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: width, height: height)
+                        .foregroundColor(.gray)
+                })
+                .scaledToFill()
+                .frame(width: width, height: height)
+                .clipShape(Rectangle())
+                .overlay(Rectangle().stroke(Color.gray, lineWidth: 0.1))
+                .onAppear {
+                    debugPrint("onAppear: called \(imageUrl)")
+                }
+                .onDisappear {
+                    debugPrint("onDisappear: called \(imageUrl)")
+                    KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
+                }
+        }
+        
     }
 }
 

@@ -5,7 +5,7 @@
 //  Created by Dhiman Ranjit on 26/09/24.
 //
 
-struct Tenant: Encodable, Decodable {
+struct Tenant: Codable {
     let id: String?
     let name: String?
 }

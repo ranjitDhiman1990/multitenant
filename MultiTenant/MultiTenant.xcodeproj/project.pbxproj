@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0552B32CA6FA9A008D5593 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0552B22CA6FA9A008D5593 /* GalleryViewModel.swift */; };
+		1E0552B62CA70D8F008D5593 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 1E0552B52CA70D8F008D5593 /* Collections */; };
 		1E075D1A2CA661DE005D30F5 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E075D192CA661DE005D30F5 /* GalleryView.swift */; };
 		1E1DA7672CA3A260009184B5 /* MultiTenantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7662CA3A260009184B5 /* MultiTenantApp.swift */; };
 		1E1DA7692CA3A260009184B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7682CA3A260009184B5 /* ContentView.swift */; };
@@ -54,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E0552B22CA6FA9A008D5593 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		1E075D192CA661DE005D30F5 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		1E1DA7632CA3A260009184B5 /* MultiTenant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiTenant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1DA7662CA3A260009184B5 /* MultiTenantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTenantApp.swift; sourceTree = "<group>"; };
@@ -100,6 +103,7 @@
 			files = (
 				1E1DA78F2CA3A8FF009184B5 /* FirebaseAnalyticsSwift in Frameworks */,
 				1EEA744C2CA3AC6000E4414D /* FirebaseAuth in Frameworks */,
+				1E0552B62CA70D8F008D5593 /* Collections in Frameworks */,
 				1E1DA78B2CA3A8FF009184B5 /* FirebaseAnalytics in Frameworks */,
 				1E57926B2CA604E900BBB47E /* Kingfisher in Frameworks */,
 				1E1DA78D2CA3A8FF009184B5 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -238,6 +242,7 @@
 		1E1DA7842CA3A355009184B5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				1E0552B22CA6FA9A008D5593 /* GalleryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 				1EEA744D2CA3AC8100E4414D /* FirebaseFirestore */,
 				1EEA744F2CA3ACA400E4414D /* FirebaseStorage */,
 				1E57926A2CA604E900BBB47E /* Kingfisher */,
+				1E0552B52CA70D8F008D5593 /* Collections */,
 			);
 			productName = MultiTenant;
 			productReference = 1E1DA7632CA3A260009184B5 /* MultiTenant.app */;
@@ -454,6 +460,7 @@
 			packageReferences = (
 				1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1E5792692CA604E900BBB47E /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 1E1DA7642CA3A260009184B5 /* Products */;
 			projectDirPath = "";
@@ -489,6 +496,7 @@
 				1EEA74542CA3AD6800E4414D /* UserService.swift in Sources */,
 				1E57925A2CA5D08700BBB47E /* Tenant.swift in Sources */,
 				1EB3F20B2CA4616000BDDE20 /* OfflineView.swift in Sources */,
+				1E0552B32CA6FA9A008D5593 /* GalleryViewModel.swift in Sources */,
 				1E5792682CA5FAF000BBB47E /* ImageLoaderView.swift in Sources */,
 				1E1DA7802CA3A32F009184B5 /* AuthViewModel.swift in Sources */,
 				1EB3F2152CA463B400BDDE20 /* View+Extensions.swift in Sources */,
@@ -662,6 +670,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -702,6 +711,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -742,6 +752,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 		1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -761,6 +779,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1E0552B52CA70D8F008D5593 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
 		1E1DA78A2CA3A8FF009184B5 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
