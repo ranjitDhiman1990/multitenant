@@ -53,7 +53,7 @@ struct GalleryView: View {
                             let firstValue = values.first
                             VStack(alignment: .leading) {
                                 HStack {
-                                    Text(key)
+                                    Text(firstValue?.createdOn?.timeAgoSinceDate() ?? "")
                                         .font(.headline)
                                     Spacer()
                                     Text(firstValue?.createdOn?.toString(format: "MMM dd, yyyy") ?? "")
@@ -65,7 +65,7 @@ struct GalleryView: View {
                                 // Image grid/list
                                 LazyVGrid(columns: [GridItem(.flexible(minimum: 100, maximum: 200)), GridItem(.flexible(minimum: 100, maximum: 200))], spacing: 12) {
                                     ForEach(values) { item in
-                                        ImageViewer(height: (UIScreen.main.bounds.width - 40) / 2, width: (UIScreen.main.bounds.width - 48) / 2, imageUrl: item.imageUrl ?? "", isCircular: false)
+                                        ImageViewer(height: (UIScreen.main.bounds.width - 40) / 2, width: (UIScreen.main.bounds.width - 48) / 2, imageUrl: item.thumbnailImageUrl ?? "", isCircular: false)
                                             .cornerRadius(10)
                                             .clipped()
                                             .matchedGeometryEffect(id: item.id, in: animationNamespace)
@@ -128,27 +128,18 @@ struct FullScreenImageView: View {
                 .matchedGeometryEffect(id: imageName, in: animationNamespace)
                 .scaleEffect(scale)
                 .offset(x: offset.width, y: offset.height)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            // Update offset while dragging
-                            offset = CGSize(width: value.translation.width, height: value.translation.height)
-                        }
-                        .onEnded { value in
-                            // Dismiss if dragged down significantly
-                            if offset.height > 100 {
-                                dismissAction() // Dismiss the view
-                                offset = .zero
-                                scale = 1
-                            } else {
-                                // Reset position if not dismissed
-                                withAnimation(.spring()) {
-                                    offset = .zero
-                                    scale = 1
-                                }
-                            }
-                        }
-                )
+                .gesture(dragGesture()) // Enable panning
+                .onTapGesture(count: 2) {
+                    withAnimation(.spring()) {
+                        toggleZoom()
+                    }
+                }
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        dismissAction()
+                    }
+                }
+            
                 .gesture(
                     MagnificationGesture()
                         .onChanged { value in
@@ -157,17 +148,17 @@ struct FullScreenImageView: View {
                         }
                         .onEnded { value in
                             // Optionally, reset scale on end
-                            withAnimation { 
-                                offset = .zero
-                                scale = 1.0
-                            }
+                            //                            withAnimation {
+                            //                                offset = .zero
+                            //                                scale = 1.0
+                            //                            }
                         }
                 )
-                .onTapGesture {
-                    dismissAction() // Dismiss on tap
-                    offset = .zero
-                    scale = 1
-                }
+            //                .onTapGesture {
+            //                    dismissAction() // Dismiss on tap
+            //                    offset = .zero
+            //                    scale = 1
+            //                }
         }
         .transition(.move(edge: .bottom))
         .onAppear {
@@ -178,5 +169,42 @@ struct FullScreenImageView: View {
             
             offset = CGSize(width: xOffset, height: yOffset)
         }
+    }
+    
+    // Function to toggle between zoomed-in and normal state
+    private func toggleZoom() {
+        if scale == 1.0 {
+            scale = 2.0 // Zoom in
+        } else {
+            scale = 1.0 // Zoom out
+            offset = .zero // Reset panning when zooming out
+        }
+    }
+    
+    // Gesture for panning when the image is zoomed in
+    private func dragGesture() -> some Gesture {
+        DragGesture()
+            .onChanged { value in
+//                if scale > 1.0 {
+                    offset = CGSize(width: value.translation.width, height: value.translation.height)
+//                }
+            }
+            .onEnded { _ in
+                // Dismiss if dragged down significantly
+                if offset.height > 100 {
+                    dismissAction() // Dismiss the view
+                    offset = .zero
+                    scale = 1
+                } else {
+                    // Reset position if not dismissed
+                    withAnimation(.spring()) {
+                        offset = .zero
+                        scale = 1
+                    }
+                }
+//                if scale == 1.0 {
+//                    offset = .zero // Reset when zoomed out
+//                }
+            }
     }
 }

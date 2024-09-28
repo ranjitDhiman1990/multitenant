@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DeleteAccountView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
+    @Binding var showDialog: Bool
     
     var body: some View {
         VStack {
@@ -42,7 +43,10 @@ struct DeleteAccountView: View {
                 VStack(spacing: 12) {
                     Button(action: {
                         // Action for cancel button
-                        presentationMode.wrappedValue.dismiss()
+//                        presentationMode.wrappedValue.dismiss()
+                        withAnimation {
+                                            showDialog = false
+                                        }
                     }) {
                         Text("No Do Not Delete and Go Back")
                             .font(.body)

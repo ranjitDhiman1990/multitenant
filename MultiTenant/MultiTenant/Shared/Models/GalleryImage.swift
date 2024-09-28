@@ -10,6 +10,7 @@ import Foundation
 struct GalleryImage: Codable, Identifiable {
     let id: String?
     let imageUrl: String?
+    let thumbnailImageUrl: String?
     let sessionId: String?
     let createdOn: Date?
     
@@ -22,7 +23,7 @@ struct GalleryImage: Codable, Identifiable {
             let imageObj = try decoder.decode(GalleryImage.self, from: jsonData)
             return imageObj
         } catch {
-            print("Error decoding GalleryImage: \(error)")
+            debugPrint("Error decoding GalleryImage: \(error)")
             return nil
         }
     }
@@ -33,7 +34,7 @@ struct GalleryImage: Codable, Identifiable {
             let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
             return fromJson(jsonData) // Use the same JSON decoding logic
         } catch {
-            print("Error serializing dictionary to JSON: \(error)")
+            debugPrint("Error serializing dictionary to JSON: \(error)")
             return nil
         }
     }
@@ -46,11 +47,11 @@ struct GalleryImage: Codable, Identifiable {
             if let dictionary = jsonObject as? [String: Any] {
                 return dictionary
             } else {
-                print("JSON is not a dictionary.")
+                debugPrint("JSON is not a dictionary.")
                 return nil
             }
         } catch {
-            print("Error deserializing JSON data: \(error)")
+            debugPrint("Error deserializing JSON data: \(error)")
             return nil
         }
     }
@@ -64,7 +65,7 @@ struct GalleryImage: Codable, Identifiable {
             let data = try encoder.encode(self)
             return data
         } catch {
-            print("Error encoding GalleryImage to JSON: \(error)")
+            debugPrint("Error encoding GalleryImage to JSON: \(error)")
             return nil
         }
     }

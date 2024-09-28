@@ -8,9 +8,20 @@
 import SwiftUI
 
 struct SignUpView: View {
+    enum Field: Hashable {
+        case firstNameField
+        case lastNameField
+        case emailField
+        case mobileNumberField
+        case passwordField
+        case repeatPasswordField
+    }
+    
+    
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject private var formValidator = SignupViewFormValidator()
+    @FocusState private var focusedField: Field?
     
     var body: some View {
         ScrollView {
@@ -30,9 +41,13 @@ struct SignUpView: View {
                 
                 Group {
                     VStack(alignment: .leading, spacing: 4) {
-                        MTTextField(placeholderText: "First name", textInputAutoCapital: .words, allowedMaxLength: FormValidatorConstants.NAME_LENGTH, text: $formValidator.firstName)
+                        MTTextField(placeholderText: "First name", textInputAutoCapital: .words, submitLabel: .next, allowedMaxLength: FormValidatorConstants.NAME_LENGTH, text: $formValidator.firstName)
                             .onChange(of: formValidator.firstName) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateFirstNameOnly()
+                            }
+                            .focused($focusedField, equals: .firstNameField)
+                            .onSubmit {
+                                focusedField = .lastNameField
                             }
                         if let error = formValidator.firstNameError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
@@ -40,30 +55,42 @@ struct SignUpView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        MTTextField(placeholderText: "Last Name", textInputAutoCapital: .words, allowedMaxLength: FormValidatorConstants.NAME_LENGTH, text: $formValidator.lastName)
+                        MTTextField(placeholderText: "Last Name", textInputAutoCapital: .words, submitLabel: .next, allowedMaxLength: FormValidatorConstants.NAME_LENGTH, text: $formValidator.lastName)
                             .onChange(of: formValidator.lastName) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateLastNameOnly()
+                            }
+                            .focused($focusedField, equals: .lastNameField)
+                            .onSubmit {
+                                focusedField = .emailField
                             }
                         if let error = formValidator.lastNameError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
                         }
                     }
                     VStack(alignment: .leading, spacing: 4) {
-                        MTTextField(placeholderText: "Email", keyboardType: .emailAddress, allowedMaxLength: FormValidatorConstants.EMAIL_LENGTH, text: $formValidator.email)
+                        MTTextField(placeholderText: "Email", keyboardType: .emailAddress, submitLabel: .next, allowedMaxLength: FormValidatorConstants.EMAIL_LENGTH, text: $formValidator.email)
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
                             .onChange(of: formValidator.email) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateEmailOnly()
+                            }
+                            .focused($focusedField, equals: .emailField)
+                            .onSubmit {
+                                focusedField = .mobileNumberField
                             }
                         if let error = formValidator.emailError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
                         }
                     }
                     VStack(alignment: .leading, spacing: 4) {
-                        MTTextField(placeholderText: "Mobile Number", keyboardType: .phonePad, allowedMaxLength: FormValidatorConstants.MOBILE_LENGTH, text: $formValidator.mobileNumber)
+                        MTTextField(placeholderText: "Mobile Number", keyboardType: .phonePad, submitLabel: .next, allowedMaxLength: FormValidatorConstants.MOBILE_LENGTH, text: $formValidator.mobileNumber)
                             .keyboardType(.phonePad)
                             .onChange(of: formValidator.mobileNumber) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateMobileOnly()
+                            }
+                            .focused($focusedField, equals: .mobileNumberField)
+                            .onSubmit {
+                                focusedField = .passwordField
                             }
                         if let error = formValidator.mobileError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
@@ -71,9 +98,13 @@ struct SignUpView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        MTTextField(placeholderText: "Password", isSecureField: true, allowedMaxLength: FormValidatorConstants.PASSWORD_LENGTH, text: $formValidator.password)
+                        MTTextField(placeholderText: "Password", isSecureField: true, submitLabel: .next, allowedMaxLength: FormValidatorConstants.PASSWORD_LENGTH, text: $formValidator.password)
                             .onChange(of: formValidator.password) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validatePasswordOnly()
+                            }
+                            .focused($focusedField, equals: .passwordField)
+                            .onSubmit {
+                                focusedField = .repeatPasswordField
                             }
                         if let error = formValidator.passwordError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
@@ -83,7 +114,7 @@ struct SignUpView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         MTTextField(placeholderText: "Repeat Password", isSecureField: true, allowedMaxLength: FormValidatorConstants.PASSWORD_LENGTH, text: $formValidator.repeatPassword)
                             .onChange(of: formValidator.repeatPassword) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateRepeatPasswordOnly()
                             }
                         if let error = formValidator.repeatPasswordError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)

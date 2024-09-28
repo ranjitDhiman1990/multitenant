@@ -111,6 +111,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Update user profile
     func updateProfileData(_ user: User, completion: @escaping() -> Void) {
         self.isShowLoading = true
         guard let uid = userSession?.uid else {
@@ -129,6 +130,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    //MARK: - On Signup completion update tempSession & userSession
     func onSignupCompletion() {
         if self.tempUserSession != nil {
             self.userSession = self.tempUserSession
@@ -136,6 +138,7 @@ class AuthViewModel: ObservableObject {
         self.tempUserSession = nil
     }
     
+    //MARK: - Fetch current user detals
     func fetchUser() {
         guard let uid = self.userSession?.uid else { return }
         
@@ -147,12 +150,14 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Fetch current user Tenant details
     func fetchTenantDetails(tenantId: String) {
         tenantService.fetchTenant(withId: tenantId) { tenant in
             self.currentUserTenant = tenant
         }
     }
     
+    //MARK: - Delete User from Firestore DB
     func deleteUserDataFromFireStore(completion: @escaping(Bool) -> Void) {
         let collectionName = "users"  // Replace with your collection name
         guard let uid = self.userSession?.uid else { return }       // Replace with the document ID you want to delete
@@ -167,6 +172,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Delete User from Auth DB
     func deleteUser(completion: @escaping(Bool) -> Void) {
         self.isShowLoading = true
         let user = Auth.auth().currentUser
@@ -190,5 +196,15 @@ class AuthViewModel: ObservableObject {
             debugPrint("User not found")
             self.isShowLoading = false
         }
+    }
+    
+    //MARK: - Forgot Password
+    func forgotPassword() {
+        self.toast = Toast(style: .warning, title: "Warning", message: "This feature is in developing mode...")
+    }
+    
+    //MARK: - Enable Biometric ID
+    func enableBiometricID() {
+        self.toast = Toast(style: .warning, title: "Warning", message: "This feature is in developing mode...")
     }
 }

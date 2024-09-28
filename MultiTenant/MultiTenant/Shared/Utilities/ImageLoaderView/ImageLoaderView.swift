@@ -21,13 +21,13 @@ struct ImageViewer: View {
                 .resizable()
                 .serialize(as: .PNG)
                 .onSuccess { result in
-                    print("Image loaded from cache: \(result.cacheType)")
+                    debugPrint("Image loaded from cache: \(result.cacheType)")
                 }
                 .onFailure { error in
-                    print("Error: \(error)")
+                    debugPrint("Error: \(error)")
                 }
                 .placeholder({
-                    Image(systemName: "person.circle.fill") // Placeholder image
+                    Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
                         .resizable()
                         .scaledToFill()
                         .frame(width: width, height: height)
@@ -49,13 +49,13 @@ struct ImageViewer: View {
                 .resizable()
                 .serialize(as: .PNG)
                 .onSuccess { result in
-                    print("Image loaded from cache: \(result.cacheType)")
+                    debugPrint("Image loaded from cache: \(result.cacheType)")
                 }
                 .onFailure { error in
-                    print("Error: \(error)")
+                    debugPrint("Error: \(error)")
                 }
                 .placeholder({
-                    Image(systemName: "person.circle.fill") // Placeholder image
+                    Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
                         .resizable()
                         .scaledToFill()
                         .frame(width: width, height: height)
@@ -97,10 +97,10 @@ struct ImageLoaderView: View {
                     .resizable()
                     .serialize(as: .PNG)
                     .onSuccess { result in
-                        print("Image loaded from cache: \(result.cacheType)")
+                        debugPrint("Image loaded from cache: \(result.cacheType)")
                     }
                     .onFailure { error in
-                        print("Error: \(error)")
+                        debugPrint("Error: \(error)")
                     }
                     .placeholder({
                         Image(systemName: "person.circle.fill") // Placeholder image

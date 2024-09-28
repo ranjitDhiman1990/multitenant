@@ -53,6 +53,11 @@ struct MenuFAB: View {
                 }
             }
         }
+        .onAppear {
+            if isExpanded {
+                isExpanded.toggle()
+            }
+        }
     }
     
     // View for the Main FAB

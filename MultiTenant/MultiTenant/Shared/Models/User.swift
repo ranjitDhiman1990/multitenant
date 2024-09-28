@@ -30,7 +30,7 @@ struct User: Codable {
             let user = try decoder.decode(User.self, from: jsonData)
             return user
         } catch {
-            print("Error decoding User: \(error)")
+            debugPrint("Error decoding User: \(error)")
             return nil
         }
     }
@@ -41,7 +41,7 @@ struct User: Codable {
             let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
             return fromJson(jsonData) // Use the same JSON decoding logic
         } catch {
-            print("Error serializing dictionary to JSON: \(error)")
+            debugPrint("Error serializing dictionary to JSON: \(error)")
             return nil
         }
     }
@@ -54,11 +54,11 @@ struct User: Codable {
             if let dictionary = jsonObject as? [String: Any] {
                 return dictionary
             } else {
-                print("JSON is not a dictionary.")
+                debugPrint("JSON is not a dictionary.")
                 return nil
             }
         } catch {
-            print("Error deserializing JSON data: \(error)")
+            debugPrint("Error deserializing JSON data: \(error)")
             return nil
         }
     }
@@ -72,7 +72,7 @@ struct User: Codable {
             let data = try encoder.encode(self)
             return data
         } catch {
-            print("Error encoding User to JSON: \(error)")
+            debugPrint("Error encoding User to JSON: \(error)")
             return nil
         }
     }

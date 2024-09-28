@@ -31,16 +31,40 @@ class SignupViewFormValidator: ObservableObject {
     
     // Validate all fields
     func validateForm() {
-        emailError = validateEmail(email)
-        mobileError = validateMobileNumber(mobileNumber)
         firstNameError = validateName(firstName)
         lastNameError = validateName(lastName)
+        emailError = validateEmail(email)
+        mobileError = validateMobileNumber(mobileNumber)
         passwordError = validatePassword(password)
         repeatPasswordError = validateRepeatPassword(password, repeatPassword)
         isAgreedError = validateTermsAndPrivacyChecked()
         
         // Check if all fields are valid
         isFormValid = emailError == nil && firstNameError == nil && lastNameError == nil && passwordError == nil && repeatPasswordError == nil && isAgreedError == nil
+    }
+    
+    func validateFirstNameOnly() {
+        firstNameError = validateName(firstName)
+    }
+    
+    func validateLastNameOnly() {
+        lastNameError = validateName(lastName)
+    }
+    
+    func validateEmailOnly() {
+        emailError = validateEmail(email)
+    }
+    
+    func validateMobileOnly() {
+        mobileError = validateMobileNumber(mobileNumber)
+    }
+    
+    func validatePasswordOnly() {
+        passwordError = validatePassword(password)
+    }
+    
+    func validateRepeatPasswordOnly() {
+        repeatPasswordError = validateRepeatPassword(password, repeatPassword)
     }
     
     // Email Validation

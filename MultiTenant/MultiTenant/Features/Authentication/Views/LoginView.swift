@@ -21,7 +21,7 @@ struct LoginView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("Some small message which appears when people were away")
+                Text("Log into your account")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
@@ -32,7 +32,7 @@ struct LoginView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         MTTextField(placeholderText: "Email", keyboardType: .emailAddress, allowedMaxLength: FormValidatorConstants.EMAIL_LENGTH, text: $formValidator.email)
                             .onChange(of: formValidator.email) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validateEmailOnly()
                             }
                         if let error = formValidator.emailError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
@@ -42,7 +42,7 @@ struct LoginView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         MTTextField(placeholderText: "Password", isSecureField: true, allowedMaxLength: FormValidatorConstants.PASSWORD_LENGTH, text: $formValidator.password)
                             .onChange(of: formValidator.password) { newValue in
-                                formValidator.validateForm()
+                                formValidator.validatePasswordOnly()
                             }
                         if let error = formValidator.passwordError {
                             Text(error).font(.footnote).foregroundColor(.red).padding(.leading, 4)
@@ -55,6 +55,7 @@ struct LoginView: View {
                 // Forgot Password Link
                 Button(action: {
                     // Forgot password action
+                    viewModel.forgotPassword()
                 }) {
                     Text("Forgotten Password?")
                         .font(.subheadline)
@@ -105,6 +106,7 @@ struct LoginView: View {
                 // Face ID Button
                 Button(action: {
                     // Face ID action
+                    viewModel.enableBiometricID()
                 }) {
                     HStack {
                         Image(systemName: "faceid")

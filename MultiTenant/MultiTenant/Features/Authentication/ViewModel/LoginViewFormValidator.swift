@@ -28,6 +28,14 @@ class LoginViewFormValidator: ObservableObject {
         isFormValid = emailError == nil && passwordError == nil
     }
     
+    func validateEmailOnly() {
+        emailError = validateEmail(email)
+    }
+    
+    func validatePasswordOnly() {
+        passwordError = validatePassword(password)
+    }
+    
     // Email Validation
     private func validateEmail(_ email: String) -> String? {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
