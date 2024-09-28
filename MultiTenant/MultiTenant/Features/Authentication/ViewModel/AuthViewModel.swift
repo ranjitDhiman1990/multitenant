@@ -80,6 +80,7 @@ class AuthViewModel: ObservableObject {
                         if self.tempUserSession != nil {
                             self.userSession = self.tempUserSession
                         }
+                        self.fetchUser()
                         self.isShowLoading = false
                     }
             }
