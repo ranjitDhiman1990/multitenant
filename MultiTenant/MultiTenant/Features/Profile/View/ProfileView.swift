@@ -99,7 +99,7 @@ struct ProfileView: View {
                     Group {
                         ProfileRowView(label: "Account", value: viewModel.currentUser?.email ?? "")
                         ProfileRowView(label: "Created On", value: viewModel.currentUser?.createdOn?.toString(format: "MMM dd, yyyy") ?? "")
-                        ProfileRowView(label: "Role", value: viewModel.currentUser?.role ?? "Not Assigned")
+                        ProfileRowView(label: "Role", value: viewModel.currentUser?.role ?? "Not Approved")
                         ProfileRowView(label: "Tenant Name", value: viewModel.currentUserTenant?.name ?? "Not Assigned")
                     }
                     .padding(.horizontal, 20)
@@ -130,18 +130,18 @@ struct ProfileView: View {
             .navigationBarHidden(true)
             
             if showDeleteAccountDialog {
-                            Color.black.opacity(0.7)
-                                .ignoresSafeArea()
-                                .transition(.opacity)
-                                .onTapGesture {
-                                    withAnimation {
-                                        showDeleteAccountDialog = false
-                                    }
-                                }
-                            
-                DeleteAccountView(showDialog: $showDeleteAccountDialog)
-                                .transition(.scale)
+                Color.black.opacity(0.7)
+                    .edgesIgnoringSafeArea(.all)
+                    .transition(.opacity)
+                    .onTapGesture {
+                        withAnimation {
+                            showDeleteAccountDialog = false
                         }
+                    }
+                
+                DeleteAccountView(showDialog: $showDeleteAccountDialog)
+                    .transition(.scale)
+            }
         }
     }
 }

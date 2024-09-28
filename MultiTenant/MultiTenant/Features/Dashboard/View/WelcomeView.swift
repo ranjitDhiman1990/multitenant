@@ -11,31 +11,33 @@ struct WelcomeView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        Color.black.opacity(0.4)
-            .edgesIgnoringSafeArea(.all) // Dims the background
-        
-        VStack(spacing: 20) {
-            Text("Welcome to MultiTenant App")
-                .font(.title2)
+        VStack(alignment: .center, spacing: 20) {
+            Text("Welcome!")
+                .font(.title)
+                .fontWeight(.bold)
                 .padding()
             
-            HStack(spacing: 20) {
-                Button(action: {
-                    viewModel.onSignupCompletion()
-                }) {
-                    Text("OK")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.green)
-                        .cornerRadius(8)
-                }
+            Text("We're glad to have you here. Explore and enjoy your experience!")
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+            Button(action: {
+                viewModel.onSignupCompletion()
+            }) {
+                Text("Got it!")
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
         }
-        .frame(width: 300, height: 200)
+        .padding()
+        .frame(maxWidth: 400)
         .background(Color.white)
-        .cornerRadius(12)
+        .cornerRadius(20)
         .shadow(radius: 10)
-        .transition(.scale)
-        .animation(.easeInOut, value: true)
     }
 }

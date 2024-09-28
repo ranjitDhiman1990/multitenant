@@ -14,66 +14,105 @@ struct ImageViewer: View {
     let width: CGFloat
     let imageUrl: String
     var isCircular: Bool = true
+    var canShowProgressIndicator: Bool = false
+    
+    @State private var progress: Double = 0.0
     
     var body: some View {
-        if isCircular {
-            KFImage(URL(string: imageUrl))
-                .resizable()
-                .serialize(as: .PNG)
-                .onSuccess { result in
-                    debugPrint("Image loaded from cache: \(result.cacheType)")
+        ZStack {
+            if isCircular {
+                KFImage(URL(string: imageUrl))
+                    .resizable()
+                    .serialize(as: .PNG)
+                    .onProgress { receivedSize, totalSize in
+                        if totalSize > 0 {
+                            progress = Double(receivedSize) / Double(totalSize)
+                        }
+                    }
+                    .onSuccess { result in
+                        debugPrint("Image loaded from cache: \(result.cacheType)")
+                        progress = 1
+                    }
+                    .onFailure { error in
+                        debugPrint("Error: \(error)")
+                        progress = 1
+                    }
+                    .placeholder({
+                        Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: width, height: height)
+                            .foregroundColor(.gray)
+                    })
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray, lineWidth: 0.1))
+                    .onAppear {
+                        debugPrint("onAppear: called \(imageUrl)")
+                    }
+                    .onDisappear {
+                        debugPrint("onDisappear: called \(imageUrl)")
+                        KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
+                    }
+            } else {
+                KFImage(URL(string: imageUrl))
+                    .resizable()
+                    .serialize(as: .PNG)
+                    .onProgress { receivedSize, totalSize in
+                        if totalSize > 0 {
+                            progress = Double(receivedSize) / Double(totalSize)
+                        }
+                    }
+                    .onSuccess { result in
+                        debugPrint("Image loaded from cache: \(result.cacheType)")
+                        progress = 1
+                    }
+                    .onFailure { error in
+                        debugPrint("Error: \(error)")
+                        progress = 1
+                    }
+                    .placeholder({
+                        Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: width, height: height)
+                            .foregroundColor(.gray)
+                    })
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .clipShape(Rectangle())
+                    .overlay(Rectangle().stroke(Color.gray, lineWidth: 0.1))
+                    .onAppear {
+                        debugPrint("onAppear: called \(imageUrl)")
+                    }
+                    .onDisappear {
+                        debugPrint("onDisappear: called \(imageUrl)")
+                        KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
+                    }
+            }
+            
+            // Progress Indicator
+            if canShowProgressIndicator && progress < 1.0 {
+                VStack {
+                    Text(String(format: "%.0f%%", progress * 100))
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color.black.opacity(0.7))
+                        .clipShape(Capsule())
+                        .padding(.bottom, 8)
+                    
+                    ProgressView(value: progress, total: 1.0)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue)) // Circular style
+                        .frame(width: 50, height: 50) // Adjust size as needed
+                        .padding(4)
+                        .background(Color.white)
+                        .clipShape(Circle())
                 }
-                .onFailure { error in
-                    debugPrint("Error: \(error)")
-                }
-                .placeholder({
-                    Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width, height: height)
-                        .foregroundColor(.gray)
-                })
-                .scaledToFill()
-                .frame(width: width, height: height)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.gray, lineWidth: 0.1))
-                .onAppear {
-                    debugPrint("onAppear: called \(imageUrl)")
-                }
-                .onDisappear {
-                    debugPrint("onDisappear: called \(imageUrl)")
-                    KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
-                }
-        } else {
-            KFImage(URL(string: imageUrl))
-                .resizable()
-                .serialize(as: .PNG)
-                .onSuccess { result in
-                    debugPrint("Image loaded from cache: \(result.cacheType)")
-                }
-                .onFailure { error in
-                    debugPrint("Error: \(error)")
-                }
-                .placeholder({
-                    Image(systemName: isCircular ? "person.circle.fill" : "photo.artframe") // Placeholder image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width, height: height)
-                        .foregroundColor(.gray)
-                })
-                .scaledToFill()
-                .frame(width: width, height: height)
-                .clipShape(Rectangle())
-                .overlay(Rectangle().stroke(Color.gray, lineWidth: 0.1))
-                .onAppear {
-                    debugPrint("onAppear: called \(imageUrl)")
-                }
-                .onDisappear {
-                    debugPrint("onDisappear: called \(imageUrl)")
-                    KingfisherManager.shared.cache.removeImage(forKey: imageUrl, fromDisk: false)
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            }
         }
-        
     }
 }
 

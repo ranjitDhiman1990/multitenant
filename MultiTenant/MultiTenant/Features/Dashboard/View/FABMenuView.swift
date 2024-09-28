@@ -26,7 +26,7 @@ struct MenuFAB: View {
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             
                             NavigationLink(destination: GalleryView().navigationBarHidden(true)) {
-                                menuOptionView(icon: "exclamationmark.triangle.fill")
+                                menuOptionView(icon: "menucard.fill")
                             }
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                             
@@ -66,7 +66,7 @@ struct MenuFAB: View {
             .foregroundColor(.white)
             .font(.system(size: 24))
             .padding()
-            .background(Color.purple)
+            .background(Color.black)
             .clipShape(Circle())
             .shadow(radius: 10)
     }
@@ -77,7 +77,7 @@ struct MenuFAB: View {
             .foregroundColor(.white)
             .font(.system(size: 20))
             .padding()
-            .background(Color.purple)
+            .background(Color.black)
             .clipShape(Circle())
             .shadow(radius: 10)
     }

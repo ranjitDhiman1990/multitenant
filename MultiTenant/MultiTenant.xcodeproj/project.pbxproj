@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1E0552B32CA6FA9A008D5593 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0552B22CA6FA9A008D5593 /* GalleryViewModel.swift */; };
-		1E0552B62CA70D8F008D5593 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 1E0552B52CA70D8F008D5593 /* Collections */; };
 		1E075D1A2CA661DE005D30F5 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E075D192CA661DE005D30F5 /* GalleryView.swift */; };
 		1E1DA7672CA3A260009184B5 /* MultiTenantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7662CA3A260009184B5 /* MultiTenantApp.swift */; };
 		1E1DA7692CA3A260009184B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1DA7682CA3A260009184B5 /* ContentView.swift */; };
@@ -77,6 +76,7 @@
 		1E5792672CA5FAF000BBB47E /* ImageLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderView.swift; sourceTree = "<group>"; };
 		1E57926C2CA60A8A00BBB47E /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		1E5792712CA6129A00BBB47E /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
+		1EADC6A92CA80CFC002D2AB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1EB3F2052CA4600700BDDE20 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		1EB3F20A2CA4616000BDDE20 /* OfflineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineView.swift; sourceTree = "<group>"; };
 		1EB3F20D2CA461BB00BDDE20 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
@@ -103,7 +103,6 @@
 			files = (
 				1E1DA78F2CA3A8FF009184B5 /* FirebaseAnalyticsSwift in Frameworks */,
 				1EEA744C2CA3AC6000E4414D /* FirebaseAuth in Frameworks */,
-				1E0552B62CA70D8F008D5593 /* Collections in Frameworks */,
 				1E1DA78B2CA3A8FF009184B5 /* FirebaseAnalytics in Frameworks */,
 				1E57926B2CA604E900BBB47E /* Kingfisher in Frameworks */,
 				1E1DA78D2CA3A8FF009184B5 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -137,6 +136,7 @@
 		1E1DA7652CA3A260009184B5 /* MultiTenant */ = {
 			isa = PBXGroup;
 			children = (
+				1EADC6A92CA80CFC002D2AB2 /* Info.plist */,
 				1EEA74592CA3B56900E4414D /* GoogleService-Info.plist */,
 				1E1DA7852CA3A3B4009184B5 /* Shared */,
 				1E1DA7752CA3A27E009184B5 /* Features */,
@@ -427,7 +427,6 @@
 				1EEA744D2CA3AC8100E4414D /* FirebaseFirestore */,
 				1EEA744F2CA3ACA400E4414D /* FirebaseStorage */,
 				1E57926A2CA604E900BBB47E /* Kingfisher */,
-				1E0552B52CA70D8F008D5593 /* Collections */,
 			);
 			productName = MultiTenant;
 			productReference = 1E1DA7632CA3A260009184B5 /* MultiTenant.app */;
@@ -460,7 +459,6 @@
 			packageReferences = (
 				1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1E5792692CA604E900BBB47E /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 1E1DA7642CA3A260009184B5 /* Products */;
 			projectDirPath = "";
@@ -659,6 +657,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiTenant/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to update your profile picture.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -668,8 +667,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
@@ -680,7 +678,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.multitenant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -700,6 +699,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiTenant/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to update your profile picture.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -709,8 +709,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
@@ -721,7 +720,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.multitenant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -752,14 +752,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-collections.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
-			};
-		};
 		1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -779,11 +771,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1E0552B52CA70D8F008D5593 /* Collections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1E0552B42CA70D8F008D5593 /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = Collections;
-		};
 		1E1DA78A2CA3A8FF009184B5 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1E1DA7892CA3A8FF009184B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

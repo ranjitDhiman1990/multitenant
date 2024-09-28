@@ -74,13 +74,10 @@ struct GalleryView: View {
                                                     selectedImage = item.imageUrl
                                                 }
                                             }
-                                        
                                     }
                                 }
                                 .padding(.leading, 16)
                                 .padding(.trailing, 16)
-                                
-                                
                             }
                             .padding(.bottom, 20)
                         }
@@ -99,7 +96,6 @@ struct GalleryView: View {
                             }
                         }
                     )
-                    
                 } else {
                     Spacer()
                 }
@@ -123,7 +119,7 @@ struct FullScreenImageView: View {
         ZStack {
             Color.black.ignoresSafeArea()
             
-            ImageViewer(height: UIScreen.main.bounds.width, width: UIScreen.main.bounds.width, imageUrl: imageName, isCircular: false)
+            ImageViewer(height: UIScreen.main.bounds.width, width: UIScreen.main.bounds.width, imageUrl: imageName, isCircular: false, canShowProgressIndicator: true)
                 .scaledToFit()
                 .matchedGeometryEffect(id: imageName, in: animationNamespace)
                 .scaleEffect(scale)
@@ -134,50 +130,46 @@ struct FullScreenImageView: View {
                         toggleZoom()
                     }
                 }
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        dismissAction()
-                    }
-                }
-            
                 .gesture(
                     MagnificationGesture()
                         .onChanged { value in
                             // Update scale with pinch gesture
-                            scale = max(1.0, value) // Prevent shrinking below original size
+                            withAnimation(.spring()) {
+                                scale = max(1.0, value) // Prevent shrinking below original size
+                            }
                         }
                         .onEnded { value in
-                            // Optionally, reset scale on end
-                            //                            withAnimation {
-                            //                                offset = .zero
-                            //                                scale = 1.0
-                            //                            }
+                            
                         }
                 )
-            //                .onTapGesture {
-            //                    dismissAction() // Dismiss on tap
-            //                    offset = .zero
-            //                    scale = 1
-            //                }
         }
         .transition(.move(edge: .bottom))
         .onAppear {
-            // Calculate the initial offset for zoom
-            let screenSize = UIScreen.main.bounds.size
-            let xOffset = (tapLocation.x - (screenSize.width / 2)) * (1 - 1/scale)
-            let yOffset = (tapLocation.y - (screenSize.height / 2)) * (1 - 1/scale)
+            withAnimation(.spring()) {
+                // Calculate the initial offset for zoom
+                let screenSize = UIScreen.main.bounds.size
+                let xOffset = (tapLocation.x - (screenSize.width / 2)) * (1 - 1/scale)
+                let yOffset = (tapLocation.y - (screenSize.height / 2)) * (1 - 1/scale)
+                
+                offset = CGSize(width: xOffset, height: yOffset)
+            }
             
-            offset = CGSize(width: xOffset, height: yOffset)
         }
     }
     
     // Function to toggle between zoomed-in and normal state
     private func toggleZoom() {
         if scale == 1.0 {
-            scale = 2.0 // Zoom in
+            withAnimation(.spring()) {
+                scale = 2.0 // Zoom in
+            }
+            
         } else {
-            scale = 1.0 // Zoom out
-            offset = .zero // Reset panning when zooming out
+            withAnimation(.spring()) {
+                scale = 1.0 // Zoom out
+                offset = .zero // Reset panning when zooming out
+            }
+            
         }
     }
     
@@ -185,16 +177,16 @@ struct FullScreenImageView: View {
     private func dragGesture() -> some Gesture {
         DragGesture()
             .onChanged { value in
-//                if scale > 1.0 {
-                    offset = CGSize(width: value.translation.width, height: value.translation.height)
-//                }
+                offset = CGSize(width: value.translation.width, height: value.translation.height)
             }
             .onEnded { _ in
                 // Dismiss if dragged down significantly
                 if offset.height > 100 {
-                    dismissAction() // Dismiss the view
-                    offset = .zero
-                    scale = 1
+                    withAnimation(.spring()) {
+                        dismissAction() // Dismiss the view
+                        offset = .zero
+                        scale = 1
+                    }
                 } else {
                     // Reset position if not dismissed
                     withAnimation(.spring()) {
@@ -202,9 +194,6 @@ struct FullScreenImageView: View {
                         scale = 1
                     }
                 }
-//                if scale == 1.0 {
-//                    offset = .zero // Reset when zoomed out
-//                }
             }
     }
 }
